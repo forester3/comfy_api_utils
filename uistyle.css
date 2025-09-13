@@ -1,0 +1,40 @@
+#run_button {
+    background-color: #ff4500;
+    width: 150px;   height: 23px;
+    font-size: 15px;
+}
+#ref_button {
+    background-color: #008080;
+    width: 150px;   height: 23px;
+    font-size: 15px;
+}
+input[type="number"] { text-align: right; }
+/* 全体フォントを小さめ */
+.gradio-container {
+    font-size: 14px;
+}
+/* すべてのラッパー余白をゼロに */
+.gradio-container .block,
+.gradio-container .form,
+.gradio-container .wrap,
+.gradio-container .component {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+/* 入力系コンポーネント */
+.gradio-container input,
+.gradio-container textarea,
+.gradio-container select {
+    margin: 0 !important;
+    padding: 0 !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    height: auto !important;
+    box-sizing: border-box !important;
+}
+/* Slider の余白もゼロ */
+.gradio-container .slider,
+.gradio-container .slider > div {
+    margin: 0 !important;
+    padding: 0 !important;
+}
