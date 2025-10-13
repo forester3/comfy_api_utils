@@ -37,8 +37,19 @@ def generate_image_with_api(
         "seed": seed, "steps": steps, "cfg": cfg,
         "sampler_name": sampler_name, "scheduler": scheduler, "denoise": denoise })
     prompt[node_ids["EmptyLatentImage"]]["inputs"].update({"width": width, "height": height})
-    prompt[node_ids["PositivePrompt_TextEncode"]]["inputs"]["text"] = positive_prompt
-    prompt[node_ids["NegativePrompt_TextEncode"]]["inputs"]["text"] = negative_prompt
+
+    # --- SDXL対応: text_l, text_g 両方に設定 ---
+    positive_node = prompt[node_ids["PositivePrompt_TextEncode"]]["inputs"]
+    negative_node = prompt[node_ids["NegativePrompt_TextEncode"]]["inputs"]
+
+    positive_node["text"] = positive_prompt
+    positive_node["text_g"] = positive_prompt
+    positive_node["text_l"] = positive_prompt
+
+    negative_node["text"] = negative_prompt
+    negative_node["text_g"] = negative_prompt
+    negative_node["text_l"] = negative_prompt
+    
     prompt[node_ids["SaveImage"]]["inputs"]["filename_prefix"] = filename_prefix
     prompt[node_ids["CheckpointLoaderSimple"]]["inputs"]["ckpt_name"] = model_name
     prompt[node_ids["CLIPSetLastLayer"]]["inputs"]["stop_at_clip_layer"] = stop_at_clip_layer
