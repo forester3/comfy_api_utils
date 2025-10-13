@@ -1,0 +1,134 @@
+{
+  "3": {
+    "inputs": {
+      "seed": 91727882531541,
+      "steps": 25,
+      "cfg": 2,
+      "sampler_name": "dpmpp_2m_sde",
+      "scheduler": "karras",
+      "denoise": 1,
+      "model": [
+        "4",
+        0
+      ],
+      "positive": [
+        "30",
+        0
+      ],
+      "negative": [
+        "33",
+        0
+      ],
+      "latent_image": [
+        "5",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "4": {
+    "inputs": {
+      "ckpt_name": "iniverseMixSFWNSFW_ponyRealGuofengV51.safetensors"
+    },
+    "class_type": "CheckpointLoaderSimple",
+    "_meta": {
+      "title": "Load Checkpoint"
+    }
+  },
+  "5": {
+    "inputs": {
+      "width": 1024,
+      "height": 1024,
+      "batch_size": 1
+    },
+    "class_type": "EmptyLatentImage",
+    "_meta": {
+      "title": "Empty Latent Image"
+    }
+  },
+  "8": {
+    "inputs": {
+      "samples": [
+        "3",
+        0
+      ],
+      "vae": [
+        "4",
+        2
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "28": {
+    "inputs": {
+      "filename_prefix": "250925",
+      "images": [
+        "8",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "30": {
+    "inputs": {
+      "width": 4096,
+      "height": 4096,
+      "crop_w": 0,
+      "crop_h": 0,
+      "target_width": 4096,
+      "target_height": 4096,
+      "text_g": "A breathtakingly beautiful woman with completely natural face, no makeup, visible pores, subtle freckles and moles, realistic skin texture with slight roughness, soft subtle smile, slightly looking away, eyes reflecting soft emotional light, gentle and serene gaze, high cheekbones, long flowing hair with natural highlights slightly moved by soft wind, soft golden hour sunlight illuminating her face, gentle shadows across cheeks and neck, shallow depth of field, cinematic composition, photorealistic, ultra detailed, 8k\n",
+      "text_l": "A breathtakingly beautiful woman with completely natural face, no makeup, visible pores, subtle freckles and moles, realistic skin texture with slight roughness, soft subtle smile, slightly looking away, eyes reflecting soft emotional light, gentle and serene gaze, high cheekbones, long flowing hair with natural highlights slightly moved by soft wind, soft golden hour sunlight illuminating her face, gentle shadows across cheeks and neck, shallow depth of field, cinematic composition, photorealistic, ultra detailed, 8k\n",
+      "clip": [
+        "34",
+        0
+      ]
+    },
+    "class_type": "CLIPTextEncodeSDXL",
+    "_meta": {
+      "title": "CLIPTextEncodeSDXL"
+    }
+  },
+  "33": {
+    "inputs": {
+      "width": 4096,
+      "height": 4096,
+      "crop_w": 0,
+      "crop_h": 0,
+      "target_width": 4096,
+      "target_height": 4096,
+      "text_g": "cartoon, anime, smooth skin, plastic texture, airbrushed, lowres, blurry, exaggerated features, oversaturated, makeup, text, watermark\n",
+      "text_l": "cartoon, anime, smooth skin, plastic texture, airbrushed, lowres, blurry, exaggerated features, oversaturated, makeup, text, watermark\n",
+      "clip": [
+        "34",
+        0
+      ]
+    },
+    "class_type": "CLIPTextEncodeSDXL",
+    "_meta": {
+      "title": "CLIPTextEncodeSDXL"
+    }
+  },
+  "34": {
+    "inputs": {
+      "stop_at_clip_layer": -1,
+      "clip": [
+        "4",
+        1
+      ]
+    },
+    "class_type": "CLIPSetLastLayer",
+    "_meta": {
+      "title": "CLIP Set Last Layer"
+    }
+  }
+}
