@@ -1,5 +1,6 @@
 COMFYUI_URL = "http://127.0.0.1:8188"
 CSS_PATH = "/content/comfy_api_utils/uistyle.css"
+RESO_PATH = "/content/comfy_api_utils/resolutions.json"
 CKPT_DIR = "/content/ComfyUI/models/checkpoints"
 LOG_FILE = "/content/comfyui_debug_log.txt"
 
@@ -68,8 +69,8 @@ def input_values( workflow_sta, node_ids_sta, presets_sta,
                 "positive prompt" : positive_prompt,
                 "negative prompt" : negative_prompt,
                 "checkpoint"      : selected_ckpt,
-                "height"          : height,
                 "width"           : width,
+                "height"          : height,
                 "sampler"         : sampler,
                 "scheduler"       : scheduler,
                 "seed"            : seed,
@@ -81,10 +82,28 @@ def input_values( workflow_sta, node_ids_sta, presets_sta,
     ctm.init_task_status(prompt_id, COMFYUI_URL)
     return json.dumps(inputs, indent=4)
 
+def size_on_select(resolution_str):
+    w, h = map(int, resolution_str.split("x"))
+    return w, h, f"{w} x {h}"
+
+def size_on_adjust(w, h):
+    return f"{w} x {h}"
+
+
 # Gradio UI
 def build_gradio_ui(workflow, node_ids, presets):
 
     ctm.clear_task_status()             # task_status全削除
+
+    with open(RESO_PATH, "r") as f:
+        resolutions = json.load(f)
+
+    resolution_options = [f"{r['width']}x{r['height']}" for r in resolutions]
+
+    def_size_idx = 5
+    def_size_str = resolution_options[def_size_idx]
+    def_w = resolutions[def_size_idx]["width"]
+    def_h = resolutions[def_size_idx]["height"]
 
     with open(CSS_PATH, "r") as f:
         css = f.read()
@@ -107,11 +126,18 @@ def build_gradio_ui(workflow, node_ids, presets):
                     negative_prompt = gr.Textbox(show_label=False, value="blurry, deformed, extra limbs", lines=8)
 
                 with gr.Tab("Size"):
+                    size_dropdown = gr.Dropdown(label="Preset(w/h)", choices=resolution_options, 
+                                                value=def_size_str, interactive=True)
                     with gr.Row():
                         with gr.Column():
-                            height = gr.Slider(1, 1024, value=1024, step=1, label="height", interactive=True)
+                            width = gr.Slider(512, 1600, value=def_w, step=16, label="width", interactive=True)
                         with gr.Column():
-                            width = gr.Slider(1, 1024, value=768, step=1, label="width", interactive=True)
+                            height = gr.Slider(512, 1408, value=def_h, step=16, label="height", interactive=True)
+                    size_output = gr.Textbox(label="Output(w/h) ", value=f"{def_w} x {def_h}")
+
+                    size_dropdown.change(fn=size_on_select, inputs=size_dropdown, outputs=[width, height, size_output])
+                    width.change(fn=size_on_adjust, inputs=[width, height], outputs=size_output)
+                    height.change(fn=size_on_adjust, inputs=[width, height], outputs=size_output)
 
                 with gr.Tab("KSamp"):
                     with gr.Row():
