@@ -1,4 +1,4 @@
-{
+[
     { "width": 768, "height": 1024 },
     { "width": 640, "height": 896 },
     { "width": 512, "height": 768 },
@@ -25,5 +25,4 @@
     { "width": 1344, "height": 896 },
     { "width": 1472, "height": 704 },
     { "width": 1600, "height": 640 }
-  ]
-}
+]
