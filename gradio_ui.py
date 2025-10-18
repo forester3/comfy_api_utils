@@ -156,7 +156,7 @@ def build_gradio_ui(workflow, node_ids, presets):
 
                 with gr.Tab("Clp-Stp"):
                     with gr.Row():
-                        stop_at_clip_layer = gr.Slider(-11, -1, value=-1, step=1, label="CLIP Stop", interactive=True)
+                        stop_at_clip_layer = gr.Slider(-11, -1, value=-2, step=1, label="CLIP Stop", interactive=True)
                         gr.Markdown("")
                         gr.Markdown("")
             with gr.Column():
